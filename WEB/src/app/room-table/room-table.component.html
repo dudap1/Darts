@@ -1,0 +1,45 @@
+<button type="button" rel="tooltip" class="btn btn-info btn-round" (click)="refreshData()">
+  <i class="material-icons">person</i> Refresh
+</button>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th class="text-center">#</th>
+    <th *ngFor="let person of displayData">{{person.name}}</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let i of liczbaRund; let j = index">
+    <td>{{j+1}}</td>
+    <td *ngFor="let player of displayData">
+      <input *ngIf="liczbaRund.length - 1 == j" type="text" class="form-control" placeholder="pkt" [(value)]="player.rounds[j].amount"
+      (change)="update(player.rounds[j].id, player.rounds[j].amount, roomId, player.id)">
+      <span *ngIf="liczbaRund.length - 1 != j">{{player.rounds[j].amount}}</span>
+    </td>
+    <td class="" *ngIf="liczbaRund.length - 1 == j">
+      <button type="button" rel="tooltip" class="btn btn-danger" (click)="dodajKolejke()">
+        <i class="material-icons">close</i>
+      </button>
+    </td>
+    <td *ngIf="liczbaRund.length - 1 != j">
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td *ngFor="let player of nowaKolejka">
+      <input type="text" class="form-control" placeholder="pkt" [(value)]="player.pkt">
+    </td>
+    <td>
+      <button type="button" rel="tooltip" class="btn btn-success" (click)="dodajKolejke()">
+        <i class="material-icons">add</i>
+      </button></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td *ngFor="let player of displayData">{{player.rounds[player.rounds.length - 1].full_amount}}</td>
+    <td></td>
+  </tr>
+  </tbody>
+</table>

@@ -1,0 +1,178 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <app-maps [searchAvailable]="editMode" [dragAvailable]="editMode" [(customLocation)]="customLocation"
+                      (locationChanged)="locationChanged($event)" style="height: 100%"></app-maps>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-img" [ngStyle]="{'background-image': 'url(' + shopDetails.imageUrl + ')'}">
+          <div class="bottom-right">
+            <input *ngIf="editMode" class="form-control" [(ngModel)]="editedShopDetails.imageUrl"
+                   placeholder="Url zdjęcia"/>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header card-header-info">
+            <h4 class="card-title">Dane sklepu</h4>
+          </div>
+          <div class="card-body">
+            <table class="table w-100">
+              <tbody>
+              <tr>
+                <td>Nazwa</td>
+                <td *ngIf="editMode">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Nazwa miejsca" [(ngModel)]="editedShopDetails.name">
+                  </div>
+                </td>
+                <td *ngIf="!editMode">{{shopDetails.name}}</td>
+              </tr>
+              <tr>
+                <td>Typ</td>
+                <td *ngIf="editMode">
+                  <div class="form-group">
+                    <mat-form-field>
+                      <mat-select placeholder="Podaj typ miejsca" [(ngModel)]="editedShopDetails.type">
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                          {{ type.viewValue }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td *ngIf="!editMode">{{shopDetails.type}}</td>
+              </tr>
+              <tr>
+                <td>Dodatkowe informacje</td>
+                <td *ngIf="editMode">
+                  <div class="form-group">
+                    <app-chips-autocomplete [selectedChips]="editedShopDetails.keywords"
+                                            (selectedChipsChange)="selectedChips($event)"></app-chips-autocomplete>
+                  </div>
+                </td>
+                <td *ngIf="!editMode">{{shopDetails.keywords.join(" ")}}</td>
+              </tr>
+              <tr>
+                <td>Otwarte</td>
+                <td *ngIf="editMode">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Godzina otwarcia [HH:MM]"
+                           [(ngModel)]="editedShopDetails.openingTime">
+                  </div>
+                </td>
+                <td *ngIf="!editMode">{{shopDetails.openingTime}}</td>
+              </tr>
+              <tr>
+                <td>Zamknięte</td>
+                <td *ngIf="editMode">
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Godzina zamknięcia [HH:MM]"
+                           [(ngModel)]="editedShopDetails.closingTime">
+                  </div>
+                </td>
+                <td *ngIf="!editMode">{{shopDetails.closingTime}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" *ngIf="creatingNew || UserService.loggedAsAdmin">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Opcje</h4>
+          </div>
+          <div class="card-body text-center">
+            <button *ngIf="!editMode" (click)="enableEditMode()" class="btn btn-info btn-round pull-center"
+                    type="button" mat-raised-button>Edytuj
+            </button>
+            <button *ngIf="editMode" (click)="saveChanges()" class="btn btn-success btn-round pull-center" type="button"
+                    mat-raised-button>Zapisz
+            </button>
+            <button *ngIf="editMode && !creatingNew" (click)="cancelEditMode()"
+                    class="btn btn-warning btn-round pull-center"
+                    type="button" mat-raised-button>Anuluj
+            </button>
+            <br>
+            <button *ngIf="editMode && !creatingNew" (click)="remove()"
+                    class="btn btn-danger btn-round pull-center"
+                    type="button" mat-raised-button>Usuń
+            </button>
+          </div>
+        </div>
+        <div class="card" *ngIf="!creatingNew">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">{{UserService.loggedAsAdmin ? "Zgłoszone zmiany" : "Zgłoś zmianę"}}</h4>
+          </div>
+          <div *ngIf="!UserService.loggedAsAdmin" class="card-body text-center">
+            <div class="form-group">
+              <input class="form-control" placeholder="Co trzeba zmienić?"
+                     [(ngModel)]="changeText">
+            </div>
+            <button (click)="sendChange()"
+                    class="btn btn-info btn-round pull-center"
+                    type="button" mat-raised-button>Wyślij
+            </button>
+          </div>
+          <table *ngIf="UserService.loggedAsAdmin" class="table">
+            <tr *ngFor="let zgl of zgloszenia">
+              <td>{{zgl.reason}}</td>
+              <td>
+                <button mat-raised-button type="submit" class="btn btn-white text-black-50 btn-round btn-just-icon"
+                        (click)="removeNotif(zgl.id)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Komentarze
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+            <th>
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" placeholder="Nazwa" [(ngModel)]="commentName">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <textarea matInput placeholder="Twój komentarz" [(ngModel)]="commentInput"></textarea>
+                </mat-form-field>
+                <button (click)="saveComment()" class="btn btn-success pull-center" type="button" mat-raised-button>
+                  Zapisz
+                </button>
+              </div>
+            </th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let comment of comments">
+              <td class="w-100 comment">
+                <span class="username">{{comment.username}}</span>
+                <p>{{comment.content}}</p>
+              </td>
+              <td>
+                <button *ngIf="UserService.loggedAsAdmin" mat-raised-button type="submit" class="btn btn-white text-black-50 btn-round btn-just-icon"
+                        (click)="removeComm(comment.id)">
+                  <i class="material-icons">delete</i>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
