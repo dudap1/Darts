@@ -11,20 +11,20 @@ import {Utils} from "../shared/utils";
 })
 export class AddRoomComponent implements OnInit {
 
-  imie;
-  nazwisko;
+  haslo= localStorage.haslo;
+  login= localStorage.login;
   nazwa = localStorage.nazwa;
-  password;
+
 
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
 
-  register() {
-    this.http.post(`/api/setPlayer?name=${this.imie}&surname=${this.nazwisko}&login=${this.nazwa}&password=${this.password}`,null).subscribe(
+  create() {
+    this.http.post(`/api/setContest?contest_name=${this.nazwa}&contest_pass=${this.haslo}&login=${this.login}`,null).subscribe(
       res=>{
-          Utils.showNotification('Utworzono konto', 'success')
+          Utils.showNotification('Utworzono gre', 'success')
       },
       error1 => {
         console.error(error1);

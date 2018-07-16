@@ -36,4 +36,6 @@ public class ContestController {
         contestRepository.save(contest);
         return new ContestObject(contest.getId(), contest.getContestName());
     }
+
+
 }

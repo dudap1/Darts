@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Utils} from "../shared/utils";
 
 @Component({
   selector: 'app-room-table',
@@ -12,14 +13,21 @@ export class RoomTableComponent implements OnInit {
 
   roomId = localStorage.roomId-0;
 
-  nowaKolejka = [];
+  newQueue = [];
 
 
   displayData = [];
 
-  liczbaRund = [];
+  countRounds = [];
+
+  password= localStorage.password;
+  login= localStorage.login;
+  name = localStorage.name;
 
   constructor(private http: HttpClient) { }
+create(){
+
+}
 
   refreshData(){
     //TODO pobranie na nowo danych z DB
@@ -65,23 +73,23 @@ export class RoomTableComponent implements OnInit {
       }
     ];
 
-    this.nowaKolejka = [];
+    this.newQueue = [];
     for(let i = 0; i < this.displayData.length; i++){
-      this.nowaKolejka.push({
+      this.newQueue.push({
         id: this.displayData[i].id,
         pkt: null
       })
     }
 
-    this.liczbaRund = [];
+    this.countRounds = [];
     for(let i = 0; i < this.displayData.length; i++){
-      this.liczbaRund = this.liczbaRund.length < this.displayData[i].rounds.length ? this.displayData[i].rounds : this.liczbaRund;
+      this.countRounds = this.countRounds.length < this.displayData[i].rounds.length ? this.displayData[i].rounds : this.countRounds;
     }
   }
 
-    dodajKolejke(){
-      for(let i = 0; i < this.nowaKolejka.length - 1 ; i++){
-        this.http.post(`/api/setRound?amount=${this.nowaKolejka[i].pkt}&photoPath=&contest=${this.roomId}&player=${this.nowaKolejka[i].id}`,null).subscribe(
+    addQueue(){
+      for(let i = 0; i < this.newQueue.length - 1 ; i++){
+        this.http.post(`/api/setRound?amount=${this.newQueue[i].pkt}&photoPath=&contest=${this.roomId}&player=${this.newQueue[i].id}`,null).subscribe(
           res=>{
             this.refreshData();
           },
@@ -99,7 +107,7 @@ export class RoomTableComponent implements OnInit {
       err=>{alert(err);console.log(err);})
   }
 
-  usunKolejke(){
+  deleteQueue(){
     let id = this.displayData[0].rounds[this.displayData[0].rounds.length - 1].id
     this.http.post(`/api/deleteRound?id=${id}`, null).subscribe(
       res=>{
@@ -108,6 +116,17 @@ export class RoomTableComponent implements OnInit {
       err=>{
         alert(err);
         console.error(err);
+      }
+    )
+  }
+
+  joinMatch (){
+    this.http.post(`/api/joinMatch?contest_name=${this.name}&contest_pass=${this.password}&login=${this.login}`,null).subscribe(
+      res=>{
+        Utils.showNotification('Utworzono konto', 'success')
+      },
+      error1 => {
+        console.error(error1);
       }
     )
   }
