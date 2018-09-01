@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",//"ng serve --proxy-config proxy.conf.json --sourcemaps=false --watch=false --build-optimizer=false",
+    "start": "node server.js",
+    "cokolwiek": "ng serve --proxy-config proxy.conf.json --sourcemaps=false --watch=false --build-optimizer=false",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
