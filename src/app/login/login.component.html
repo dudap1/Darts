@@ -1,0 +1,40 @@
+<div class="main-content">
+  <div class="container">
+    <div class="col-lg-6 col-md-86 col-sm-8 ml-auto mr-auto">
+      <div class="form ng-untouched ng-pristine ng-valid">
+        <div class="card card-login">
+          <div class="card-body ml-auto mr-auto">
+            <p class="card-description text-center">Podaj dane do logowania</p>
+            <span class="bmd-form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">email</i>
+                  </span>
+                </div>
+                  <mat-form-field>
+                    <input matInput type="text" placeholder="Nazwa użytkownika" [(ngModel)]="username">
+                  </mat-form-field>
+              </div>
+            </span>
+            <span class="bmd-form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">lock_outline</i>
+                  </span>
+                </div>
+                  <mat-form-field>
+                    <input matInput placeholder="Hasło" type="password" [(ngModel)]="password">
+                  </mat-form-field>
+              </div>
+            </span>
+          </div>
+          <div class="card-footer justify-content-center">
+            <button class="btn btn-info" mat-raised-button (click)="login()">Zaloguj</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
