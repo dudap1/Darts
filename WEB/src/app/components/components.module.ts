@@ -78,7 +78,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
   ],
   declarations: [
     FooterComponent,
-    NavbarComponent,
+  NavbarComponent,
     SidebarComponent,
     ChipsAutocompleteComponent
   ],

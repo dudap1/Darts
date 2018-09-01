@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   login() {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
-    this.http.post('/api/login', `username=${this.username}&password=${this.password}`, {headers: headers})
+    this.http.post('https://edarter.herokuapp.com/api/login', `username=${this.username}&password=${this.password}`, {headers: headers})
       .subscribe((response) => Utils.showNotification("zalogowano", 'success'));
     // this.http.post('/api/login', {username: this.username, password: this.password}).subscribe((response) => Utils.showNotification("yay", 'success'));
   }

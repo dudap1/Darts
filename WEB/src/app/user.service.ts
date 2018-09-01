@@ -50,7 +50,7 @@ export class UserService {
     Cookie.delete('access_token');
     this.loggedAsAdmin = false;
     this.eventEmitter.emit(this.loggedAsAdmin);
-    this.router.navigate(['map']);
+    this.router.navigate(['login']);
   }
 
 }

@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
      // {path: '/admin', title: 'Panel administratora', icon: 'security', class: '', style: STYLE.LOGGED_ONLY},
       {path: '/login', title: 'Zaloguj', icon: 'person', class: '', style: STYLE.LOGGED_OUT_ONLY},
       {path: '/register', title: 'Zarejestruj', icon: 'face', class: '', style: STYLE.LOGGED_OUT_ONLY},
-      {path: '/add-room', title: 'Stworz gre', icon: 'videogame_asset', class: '', style: STYLE.LOGGED_OUT_ONLY},
+      {path: '/add-room', title: 'Stwórz grę', icon: 'videogame_asset', class: '', style: STYLE.LOGGED_OUT_ONLY},
     ];
   }
 

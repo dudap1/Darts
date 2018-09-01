@@ -20,16 +20,16 @@ import {
 import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
-import { AdminPanelComponent } from './admin-panel/admin-panel.component';
-import { ShopComponent } from './shop/shop.component';
+//import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+//import { ShopComponent } from './shop/shop.component';
 import { LoginComponent } from './login/login.component';
 import { UserService } from "app/user.service";
-import { UserProfileComponent } from "./user-profile/user-profile.component";
+//import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { MapsComponent } from "./maps/maps.component";
+//import { MapsComponent } from "./maps/maps.component";
 import { CommonModule } from "@angular/common";
 import { TokenInterceptorService } from "./token-interceptor.service";
-import { AboutUsComponent } from './about-us/about-us.component';
+//import { AboutUsComponent } from './about-us/about-us.component';
 import {RegisterComponent} from "./register/register.component";
 import {AddRoomComponent} from "./add-room/add-room.component";
 import { RoomTableComponent } from './room-table/room-table.component';
@@ -61,13 +61,13 @@ import { RoomTableComponent } from './room-table/room-table.component';
   declarations: [
     AppComponent,
     DashboardComponent,
-    UserProfileComponent,
-    MapsComponent,
-    AdminPanelComponent,
+   // UserProfileComponent,
+   // MapsComponent,
+   // AdminPanelComponent,
     LoginComponent,
     RegisterComponent,
-    ShopComponent,
-    AboutUsComponent,
+    //ShopComponent,
+    //AboutUsComponent,
     AddRoomComponent,
     RoomTableComponent
   ],
