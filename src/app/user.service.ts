@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Cookie } from 'ng2-cookies';
 import { Observable } from "rxjs/Observable";
 import { Router } from "@angular/router";
-import * as _ from "lodash";
 
 declare const google: any;
 
