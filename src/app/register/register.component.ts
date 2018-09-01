@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    this.http.post(`https://edarter.herokuapp.com/api/setPlayer?name=${this.imie}&surname=${this.nazwisko}&login=${this.nazwa}&password=${this.password}`,null).subscribe(
+    this.http.post(`https://edarter2.herokuapp.com/api/setPlayer?name=${this.imie}&surname=${this.nazwisko}&login=${this.nazwa}&password=${this.password}`,null).subscribe(
       res=>{
           Utils.showNotification('Utworzono konto', 'success')
       },
