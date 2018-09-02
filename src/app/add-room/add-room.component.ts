@@ -22,7 +22,7 @@ export class AddRoomComponent implements OnInit {
   }
 
   create() {
-    this.http.post(`/api/setContest?contest_name=${this.nazwa}&contest_pass=${this.haslo}&login=${this.login}`,null).subscribe(
+    this.http.post(`http://localhost:8080/api/setContest?contest_name=${this.nazwa}&contest_pass=${this.haslo}&login=${this.login}`,null).subscribe(
       res=>{
           Utils.showNotification('Utworzono gre', 'success')
       },

@@ -27,8 +27,9 @@ export class UserService {
   }
 
   saveToken(token) {
+    console.log(token);
     var expireDate = new Date().getTime() + (1000 * token.expires_in);
-    Cookie.set("access_token", token.access_token, expireDate);
+    Cookie.set("JSESSIONID", token.access_token, expireDate);
   }
 
   login(user, password) {
@@ -46,7 +47,7 @@ export class UserService {
   }
 
   logout() {
-    Cookie.delete('access_token');
+    Cookie.delete('JSESSIONID');
     this.loggedAsAdmin = false;
     this.eventEmitter.emit(this.loggedAsAdmin);
     this.router.navigate(['login']);
