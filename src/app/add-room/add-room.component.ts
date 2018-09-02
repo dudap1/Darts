@@ -11,8 +11,8 @@ import {Utils} from "../shared/utils";
 })
 export class AddRoomComponent implements OnInit {
 
-  haslo= localStorage.haslo;
-  nazwa = localStorage.nazwa;
+  haslo= localStorage.password;
+  nazwa = localStorage.name;
 
 
   constructor(private http: HttpClient, private UserService: UserService, private router: Router) { }
@@ -23,8 +23,8 @@ export class AddRoomComponent implements OnInit {
   create() {
     this.http.post(`https://edarter2.herokuapp.com/api/setContest?contest_name=${this.nazwa}&contest_pass=${this.haslo}&login=${this.UserService._login}`,null).subscribe(
       (res:any ) => {
-          localStorage.nazwa = this.nazwa;
-          localStorage.haslo = this.haslo;
+        localStorage.name = this.nazwa;
+        localStorage.password = this.haslo;
           Utils.showNotification('Utworzono gre', 'success')
           this.router.navigate(['/game-room', res.id]);
       },
