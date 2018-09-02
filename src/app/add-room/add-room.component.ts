@@ -22,8 +22,11 @@ export class AddRoomComponent implements OnInit {
 
   create() {
     this.http.post(`https://edarter2.herokuapp.com/api/setContest?contest_name=${this.nazwa}&contest_pass=${this.haslo}&login=${this.UserService._login}`,null).subscribe(
-      res=>{
+      (res:any ) => {
+          localStorage.nazwa = this.nazwa;
+          localStorage.haslo = this.haslo;
           Utils.showNotification('Utworzono gre', 'success')
+          this.router.navigate(['/game-room', res.id]);
       },
       error1 => {
         console.error(error1);

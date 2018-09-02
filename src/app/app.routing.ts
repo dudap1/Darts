@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'add-room', component: AddRoomComponent},
-  {path: 'game-room', component: RoomTableComponent},
+  {path: 'game-room/:id', component: RoomTableComponent},
 ];
 
 @NgModule({

@@ -20,7 +20,7 @@
       <span *ngIf="countRounds.length - 1 != j">{{player.rounds[j].amount}}</span>
     </td>
     <td class="" *ngIf="countRounds.length - 1 == j">
-      <button type="button" rel="tooltip" class="btn btn-danger" (click)="addQueue()">
+      <button type="button" rel="tooltip" class="btn btn-danger" (click)="deleteQueue()">
         <i class="material-icons">close</i>
       </button>
     </td>
