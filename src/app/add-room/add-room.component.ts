@@ -12,17 +12,16 @@ import {Utils} from "../shared/utils";
 export class AddRoomComponent implements OnInit {
 
   haslo= localStorage.haslo;
-  login= localStorage.login;
   nazwa = localStorage.nazwa;
 
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private UserService: UserService, private router: Router) { }
 
   ngOnInit() {
   }
 
   create() {
-    this.http.post(`http://localhost:8080/api/setContest?contest_name=${this.nazwa}&contest_pass=${this.haslo}&login=${this.login}`,null).subscribe(
+    this.http.post(`https://edarter2.herokuapp.com/api/setContest?contest_name=${this.nazwa}&contest_pass=${this.haslo}&login=${this.UserService._login}`,null).subscribe(
       res=>{
           Utils.showNotification('Utworzono gre', 'success')
       },

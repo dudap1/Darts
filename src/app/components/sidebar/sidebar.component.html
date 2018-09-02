@@ -12,5 +12,10 @@
         <p>{{menuItem.title}}</p>
       </a>
     </li>
+    <li *ngIf="UserService.logged" class="nav-item">
+      <a class="nav-link" (click)="logout()">
+      <p>Wyloguj</p>
+    </a>
+    </li>
   </ul>
 </div>

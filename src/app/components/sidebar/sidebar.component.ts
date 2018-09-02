@@ -16,10 +16,9 @@ declare interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-//  {path: '/map', title: 'Mapa okolicy', icon: 'dashboard', class: '', style: STYLE.FORALL},
- // {path: '/shop', title: 'Sklep', icon: 'shopping_cart', class: '', style: STYLE.FORALL},
- // {path: '/admin', title: 'Panel administratora', icon: 'security', class: '', style: STYLE.LOGGED_ONLY},
   {path: '/login', title: 'Zaloguj', icon: 'person', class: '', style: STYLE.LOGGED_OUT_ONLY},
+  {path: '/register', title: 'Zarejestruj', icon: 'face', class: '', style: STYLE.LOGGED_OUT_ONLY},
+  {path: '/add-room', title: 'Stwórz grę', icon: 'videogame_asset', class: '', style: STYLE.LOGGED_ONLY},
 ];
 
 @Component({
@@ -31,23 +30,20 @@ export class SidebarComponent implements OnInit {
   menuItems: any[];
 
   constructor(private UserService: UserService) {
-    // UserService.eventEmitter.subscribe(bool => this.filter(bool));
+    UserService.eventEmitter.subscribe(bool => this.filter(bool));
   }
 
   ngOnInit() {
-    this.menuItems = [
-  //    {path: '/map', title: 'Mapa okolicy', icon: 'dashboard', class: '', style: STYLE.FORALL},
-    //  {path: '/shop', title: 'Sklep', icon: 'shopping_cart', class: '', style: STYLE.FORALL},
-     // {path: '/admin', title: 'Panel administratora', icon: 'security', class: '', style: STYLE.LOGGED_ONLY},
-      {path: '/login', title: 'Zaloguj', icon: 'person', class: '', style: STYLE.LOGGED_OUT_ONLY},
-      {path: '/register', title: 'Zarejestruj', icon: 'face', class: '', style: STYLE.LOGGED_OUT_ONLY},
-      {path: '/add-room', title: 'Stwórz grę', icon: 'videogame_asset', class: '', style: STYLE.LOGGED_OUT_ONLY},
-    ];
+    this.filter(this.UserService.logged);
   }
 
   filter(bool: boolean) {
     let style = bool ? STYLE.LOGGED_ONLY : STYLE.LOGGED_OUT_ONLY;
     this.menuItems = ROUTES.filter(m => m.style == STYLE.FORALL || m.style == style);
+  }
+
+  logout() {
+    this.UserService.logout();
   }
 
   isMobileMenu() {

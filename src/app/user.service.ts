@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Cookie } from 'ng2-cookies';
-import { Observable } from "rxjs/Observable";
 import { Router } from "@angular/router";
 
 declare const google: any;
@@ -9,48 +8,30 @@ declare const google: any;
 @Injectable()
 export class UserService {
 
-  headers = new HttpHeaders({
-    'Authorization': 'Basic bmllZHppZWxlci1hZG1pbjp0ZXN0'
-  });
-
-
-  loggedAsAdmin = false;
+  logged = false;
+  _login = null;
   eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
-  location;
   chips: string[];
 
   constructor(private http: HttpClient, private router: Router) {
-    if (Cookie.get('access_token')) {
-      this.loggedAsAdmin = true;
-    }
-
+    this.http.get("https://edarter2.herokuapp.com/api/whoAmI").subscribe((data: any) => {
+      this._login = data.login;
+      this.logged = !!this._login;
+      this.eventEmitter.emit(this.logged);
+    });
   }
 
-  saveToken(token) {
-    console.log(token);
-    var expireDate = new Date().getTime() + (1000 * token.expires_in);
-    Cookie.set("JSESSIONID", token.access_token, expireDate);
-  }
-
-  login(user, password) {
-    let form = new FormData();
-    form.append("grant_type", "password");
-    form.append("username", user);
-    form.append("password", password);
-    form.append("client_id", "niedzieler-admin");
-
-    return this.http.post('/api/oauth/token', form, {headers: this.headers});
-  }
-
-  checkCredentials() {
-    return Cookie.check('access_token');
+  login() {
+    this.logged = true;
+    this.eventEmitter.emit(this.logged);
+    this.router.navigate(['login']);
   }
 
   logout() {
     Cookie.delete('JSESSIONID');
-    this.loggedAsAdmin = false;
-    this.eventEmitter.emit(this.loggedAsAdmin);
+    this.logged = false;
+    this.eventEmitter.emit(this.logged);
+    this.http.get("https://edarter2.herokuapp.com/api/logout").subscribe(() => {});
     this.router.navigate(['login']);
   }
-
 }

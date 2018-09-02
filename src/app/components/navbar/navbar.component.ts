@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
     this.location = location;
     this.sidebarVisible = false;
     UserService.eventEmitter.subscribe(bool => this.filter(bool));
-    this.visible = this.UserService.loggedAsAdmin;
+    this.visible = this.UserService.logged;
   }
 
   filter(bool) {

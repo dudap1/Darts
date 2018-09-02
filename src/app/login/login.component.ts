@@ -30,27 +30,27 @@ export class LoginComponent implements OnInit {
       headers: headers
     };
 
-    this.http.post('http://localhost:8080/api/login', `username=${this.username}&password=${this.password}`, httpOptions)
+    this.http.post('https://edarter2.herokuapp.com/api/login', `username=${this.username}&password=${this.password}`, httpOptions)
       .subscribe((response) => {
-        console.log(response);
+        this.UserService.login();
         Utils.showNotification("zalogowano", 'success')
       }, (error) => {
         console.log(error);
       });
-
-    $.ajax({
-      type: "POST",
-      beforeSend: (request) => {
-        request.setRequestHeader("Authorization", "Basic " + btoa(`${this.username}:${this.password}`));
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      },
-      data: {
-        username: this.username,
-        password: this.password
-      },
-      url: 'http://localhost:8080/api/login',
-    }).then((data, textStatus, jqXHR) => console.log(data, textStatus, jqXHR, jqXHR.getResponseHeader('Set-Cookie')),
-        error => console.log(error));
+    //
+    // $.ajax({
+    //   type: "POST",
+    //   beforeSend: (request) => {
+    //     request.setRequestHeader("Authorization", "Basic " + btoa(`${this.username}:${this.password}`));
+    //     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    //   },
+    //   data: {
+    //     username: this.username,
+    //     password: this.password
+    //   },
+    //   url: 'https://edarter2.herokuapp.com/api/login',
+    // }).then((data, textStatus, jqXHR) => console.log(data, textStatus, jqXHR, jqXHR.getResponseHeader('Set-Cookie')),
+    //     error => console.log(error));
 
     // this.http.post('/api/login', {username: this.username, password: this.password}).subscribe((response) => Utils.showNotification("yay", 'success'));
   }
