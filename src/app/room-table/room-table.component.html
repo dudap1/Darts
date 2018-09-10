@@ -3,20 +3,35 @@
 </button>
 
 
-  <table class="table">
+<table class="table">
   <thead>
   <tr>
     <th class="text-center">#</th>
-    <th *ngFor="let person of displayData">{{person.name}}</th>
+    <th *ngFor="let person of players">{{person.login}}</th>
     <th></th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let i of countRounds; let j = index">
+
+  <tr *ngFor="let kolejka of displayData; let j = index">
+    <td>{{j+1}}</td>
+    <td *ngFor="let player of kolejka">
+      <input *ngIf="displayData.length - 1 == j" type="text" class="form-control" placeholder="pkt" [(value)]="player.amount"
+             (change)="update(player.id, player.amount, roomId, player.id)">
+      <span *ngIf="countRounds.length - 1 != j">{{player.amount}}</span>
+    </td>
+    <td class="" *ngIf="countRounds.length - 1 == j">
+      <button type="button" rel="tooltip" class="btn btn-danger" (click)="deleteQueue()">
+        <i class="material-icons">close</i>
+      </button>
+    </td>
+  </tr>
+
+  <!-- <tr *ngFor="let person of countRounds; let j = index">
     <td>{{j+1}}</td>
     <td *ngFor="let player of displayData">
       <input *ngIf="countRounds.length - 1 == j" type="text" class="form-control" placeholder="pkt" [(value)]="player.rounds[j].amount"
-             (change)="update(player.rounds[j].id, player.rounds[j].amount, roomId, player.id)">
+        (change)="update(player.rounds[j].id, player.rounds[j].amount, roomId, player.id)">
       <span *ngIf="countRounds.length - 1 != j">{{player.rounds[j].amount}}</span>
     </td>
     <td class="" *ngIf="countRounds.length - 1 == j">
@@ -24,13 +39,11 @@
         <i class="material-icons">close</i>
       </button>
     </td>
-    <td *ngIf="countRounds.length - 1 != j">
-    </td>
-  </tr>
+  </tr> -->
   <tr>
     <td></td>
     <td *ngFor="let player of newQueue">
-      <input type="text" class="form-control" placeholder="pkt" [(value)]="player.pkt">
+      <input type="text" class="form-control" placeholder="Punkty" [(value)]="player.amount">
     </td>
     <td>
       <button type="button" rel="tooltip" class="btn btn-success" (click)="addQueue()">
@@ -39,7 +52,7 @@
   </tr>
   <tr>
     <td></td>
-    <td *ngFor="let player of displayData">{{player.rounds[player.rounds.length - 1].full_amount}}</td>
+  <!--  <td *ngFor="let player of displayData">{{player.rounds[player.rounds.length - 1].fullAmount}}</td> -->
     <td></td>
   </tr>
   </tbody>
@@ -60,9 +73,9 @@
                     <i class="material-icons">email</i>
                   </span>
                 </div>
-                  <mat-form-field>
-                    <input matInput type="text" placeholder="Login" [(ngModel)]="login">
-                  </mat-form-field>
+                <mat-form-field>
+                  <input matInput type="text" placeholder="Login" [(ngModel)]="login">
+                </mat-form-field>
               </div>
             </span>
 
