@@ -21,7 +21,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { LoginComponent } from './login/login.component';
 import { UserService } from "app/user.service";
-import { DashboardComponent } from "./dashboard/dashboard.component";
+//import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CommonModule } from "@angular/common";
 import { TokenInterceptorService } from "./token-interceptor.service";
 import {RegisterComponent} from "./register/register.component";
@@ -51,7 +51,7 @@ import { RoomTableComponent } from './room-table/room-table.component';
   ],
   declarations: [
     AppComponent,
-    DashboardComponent,
+   // DashboardComponent,
     LoginComponent,
     RegisterComponent,
     AddRoomComponent,
