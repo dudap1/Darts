@@ -151,8 +151,8 @@ export class RoomTableComponent implements OnInit {
   }
 
   addQueue() {
-    for (let i = 0; i < this.newQueue.length - 1; i++) {
-      this.http.post(`https://edarter2.herokuapp.com/api/setRound?amount=${this.newQueue[i].amount}&contest=${name}&player=${this.newQueue[i].login}`, null).subscribe(
+    for (let i = 0; i < this.newQueue.length ; i++) {
+      this.http.post(`https://edarter2.herokuapp.com/api/setRound?amount=${this.newQueue[i].amount}&contest=${this.name}&player=${this.newQueue[i].login}`, null).subscribe(
         res => {
           console.log('dodano rekord');
           console.log(res)
