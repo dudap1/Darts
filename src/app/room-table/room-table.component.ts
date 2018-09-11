@@ -182,7 +182,7 @@ export class RoomTableComponent implements OnInit {
 
   deleteQueue(j) {
     if (this.displayData[j]) {
-      this.displayData[j].forEach(el => {
+     this.displayData[j].forEach(el => {
         if (el.id) {
           this.http.post(`https://edarter2.herokuapp.com/api/deleteRound?id=${el.id}`, null).subscribe(
             res => {
@@ -195,7 +195,7 @@ export class RoomTableComponent implements OnInit {
             }
           )
         }
-      });
+     });
     }
     setTimeout((el) => {
       this.refreshData();

@@ -16,19 +16,17 @@
   <tr *ngFor="let kolejka of displayData; let j = index">
     <td>{{j+1}}</td>
     <td *ngFor="let player of kolejka; let k = index">
-      <input *ngIf="player && (lastRecordsIndex[k] - 1 == j)" type="text" class="form-control" placeholder="pkt"
-             [(ngModel)]="player.amount"
+        <input *ngIf="player && (lastRecordsIndex[k] - 1 == j)" type="text" class="form-control" placeholder="pkt"
+              [(ngModel)]="player.amount"
              (change)="update(player.id, player.amount, name, player.id)">
-      <span *ngIf="player && (lastRecordsIndex[k] - 1 != j);else deleteButton">{{player.amount}}</span>
+      <span *ngIf="player && (lastRecordsIndex[k] -1 != j);else deleteButton">{{player.amount}}</span>
 
       <ng-template #deleteButton>
         <button type="button" rel="tooltip" class="btn btn-danger" (click)="deleteQueue(lastRecordsIndex[k]-1)">
           <i class="material-icons">close</i>
         </button>
       </ng-template>
-
     </td>
-
   </tr>
 
 
