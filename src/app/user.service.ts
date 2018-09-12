@@ -3,15 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { Cookie } from 'ng2-cookies';
 import { Router } from "@angular/router";
 
-declare const google: any;
-
 @Injectable()
 export class UserService {
 
   logged = false;
   _login = null;
   eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
-  chips: string[];
 
   constructor(private http: HttpClient, private router: Router) {
     this.http.get("https://edarter2.herokuapp.com/api/whoAmI").subscribe((data: any) => {

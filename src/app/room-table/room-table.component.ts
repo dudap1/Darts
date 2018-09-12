@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Utils} from '../shared/utils';
 import {UserService} from '../user.service';
 import {ActivatedRoute} from '@angular/router';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-room-table',
@@ -39,12 +38,12 @@ export class RoomTableComponent implements OnInit {
   }
 
 
-  handleResult(result: Array<RecordResult>) {
+  handleResult(result: Array<RecordResult>, pl) {
 
     const displayData = []
     /*lista graczy*/
     const players = [];
-    result.forEach(element => {
+    pl.forEach(element => {
       if (players.indexOf(element.login) == -1) {
         players.push(element.login);
         // displayData[players.indexOf(element.login)] = [];
@@ -103,12 +102,6 @@ export class RoomTableComponent implements OnInit {
       }
     )
 
-// for (let i = 0; i < this.displayData.length; i++) {
-//     this.newQueue.push({
-//         id: this.displayData[i].id,
-//         amount: null
-//     })
-// }
 
     /*ustawienie najdłuższej kolejki*/
     this.countRounds = [];
@@ -121,51 +114,47 @@ export class RoomTableComponent implements OnInit {
   }
 
   refreshData() {
+    this.getContestPlayers().subscribe(pl => {
+        this.http.post(`https://edarter2.herokuapp.com/api/getRoundsByName?contestName=${this.name}&login=${this.UserService._login}`, null)
+          .subscribe((res: Array<RecordResult>) => {
+              console.log(res);
+              this.displayData = res;
+              this.handleResult(res, pl);
+            },
+            error => {
+              console.error(error);
+              Utils.showNotification('nie udało się odświeżyć danych', 'danger');
 
-    this.http.post(`https://edarter2.herokuapp.com/api/getRoundsByName?contestName=${this.name}&login=${this.UserService._login}`, null)
-      .subscribe((res: Array<RecordResult>) => {
+            })
+      },
+      error1 => {
+        console.log(error1);
+        Utils.showNotification('nnie udało się odświeżyć danych', 'danger');
 
-          console.log(res);
-          this.displayData = res;
-          this.handleResult(res);
-        },
-        error => {
-          console.error(error);
-        })
+      })
 
-    /*
-        this.newQueue = [];
-        for (let i = 0; i < this.displayData.length; i++) {
-          this.newQueue.push({
-            id: this.displayData[i].id,
-            pkt: null
-          })
-        }
-
-
-        this.countRounds = [];
-        for (let i = 0; i < this.displayData.length; i++) {
-          this.countRounds = this.countRounds.length < this.displayData[i].rounds.length ? this.displayData[i].rounds : this.countRounds;
-        }
-    */
   }
 
-  addQueue() {
-    for (let i = 0; i < this.newQueue.length ; i++) {
-      this.http.post(`https://edarter2.herokuapp.com/api/setRound?amount=${this.newQueue[i].amount}&contest=${this.name}&player=${this.newQueue[i].login}`, null).subscribe(
-        res => {
-          console.log('dodano rekord');
-          console.log(res)
-        },
-        err => {
-          alert(err);
-          console.error(err);
-        }
-      )
-    }
+  addQueue(queue: RecordResult) {
+    this.http.post(`https://edarter2.herokuapp.com/api/setRound?amount=${queue.amount}&contest=${this.name}&player=${queue.login}`, null).subscribe(
+      res => {
+        console.log(res);
+        console.log('dodano rekord');
+        Utils.showNotification('dodano rekord', 'success');
+      },
+      err => {
+        console.error(err);
+        Utils.showNotification('nie dodano rekordu', 'danger');
+      }
+    )
+
     setTimeout(() => {
       this.refreshData()
     }, 1000)
+  }
+
+  getContestPlayers() {
+    return this.http.post(`https://edarter2.herokuapp.com/api/getContestPlayers?contest=${this.name}`, null)
   }
 
   update(id, nowailosc, roomId, idgracza) {
@@ -180,24 +169,25 @@ export class RoomTableComponent implements OnInit {
       })
   }
 
-  deleteQueue(j) {
-    if (this.displayData[j]) {
-     this.displayData[j].forEach(el => {
-        if (el.id) {
-          this.http.post(`https://edarter2.herokuapp.com/api/deleteRound?id=${el.id}`, null).subscribe(
-            res => {
-              console.log('rekord usunieto');
-              console.log(res);
-            },
-            err => {
-              alert(err);
-              console.error(err);
-            }
-          )
+  deleteQueue(queue: RecordResult) {
+
+    if (queue.id) {
+      this.http.post(`https://edarter2.herokuapp.com/api/deleteRound?id=${queue.id}`, null).subscribe(
+        res => {
+          Utils.showNotification('usunięto rekord', 'success');
+          console.log(res);
+          console.log('usunieto rekord');
+        },
+        err => {
+          Utils.showNotification('nie usunięto rekordu', 'danger');
+          console.error(err);
         }
-     });
+      )
     }
-    setTimeout((el) => {
+    else {
+      Utils.showNotification('rekord jeszcze nie istnieje', 'danger');
+    }
+    setTimeout(() => {
       this.refreshData();
     }, 1000)
   }

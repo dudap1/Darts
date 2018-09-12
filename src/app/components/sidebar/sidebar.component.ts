@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../../user.service";
 
-declare const $: any;
-
 export enum STYLE {
   FORALL, LOGGED_ONLY, LOGGED_OUT_ONLY
 }
@@ -45,11 +43,4 @@ export class SidebarComponent implements OnInit {
   logout() {
     this.UserService.logout();
   }
-
-  isMobileMenu() {
-    if ($(window).width() > 991) {
-      return false;
-    }
-    return true;
-  };
 }

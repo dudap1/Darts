@@ -1,7 +1,6 @@
-<button type="button" rel="tooltip" class="btn btn-info btn-round" (click)="refreshData()">
-  <i class="material-icons">person</i> Odśwież
+<button type="button" rel="tooltip" class="btn btn-info btn-round" style="margin: 10px auto;display: block;" (click)="refreshData()">
+  <i class="material-icons">refresh</i> Odśwież
 </button>
-
 
 <table class="table">
   <thead>
@@ -16,40 +15,20 @@
   <tr *ngFor="let kolejka of displayData; let j = index">
     <td>{{j+1}}</td>
     <td *ngFor="let player of kolejka; let k = index">
-        <input *ngIf="player && (lastRecordsIndex[k] - 1 == j)" type="text" class="form-control" placeholder="pkt"
-              [(ngModel)]="player.amount"
-             (change)="update(player.id, player.amount, name, player.id)">
-      <span *ngIf="player && (lastRecordsIndex[k] -1 != j);else deleteButton">{{player.amount}}</span>
+      <span *ngIf="player">{{player.amount}}</span>
 
-      <ng-template #deleteButton>
-        <button type="button" rel="tooltip" class="btn btn-danger" (click)="deleteQueue(lastRecordsIndex[k]-1)">
+      <div *ngIf="player && (lastRecordsIndex[k] - 1 == j)">
+        <button type="button" rel="tooltip" class="btn btn-danger" (click)="deleteQueue(player)">
           <i class="material-icons">close</i>
         </button>
-      </ng-template>
+      </div>
     </td>
   </tr>
-
-
-
-
-  <!-- <tr *ngFor="let person of countRounds; let j = index">
-    <td>{{j+1}}</td>
-    <td *ngFor="let player of displayData">
-      <input *ngIf="countRounds.length - 1 == j" type="text" class="form-control" placeholder="pkt" [(value)]="player.rounds[j].amount"
-        (change)="update(player.rounds[j].id, player.rounds[j].amount, roomId, player.id)">
-      <span *ngIf="countRounds.length - 1 != j">{{player.rounds[j].amount}}</span>
-    </td>
-    <td class="" *ngIf="countRounds.length - 1 == j">
-      <button type="button" rel="tooltip" class="btn btn-danger" (click)="deleteQueue()">
-        <i class="material-icons">close</i>
-      </button>
-    </td>
-  </tr> -->
   <tr>
     <td></td>
     <td *ngFor="let play of newQueue">
       <input type="text" class="form-control" placeholder="Punkty" [(ngModel)]="play.amount">
-      <button type="button" rel="tooltip" class="btn btn-success" (click)="addQueue()">
+      <button type="button" rel="tooltip" class="btn btn-success" (click)="addQueue(play)">
         <i class="material-icons">add</i>
       </button>
 
@@ -59,10 +38,6 @@
 
     </td>
   </tr>
-
-
-
-
   <tr>
     <td></td>
     <td *ngFor="let player of lastRecords"><span *ngIf="player">{{player.fullAmount}}</span></td>
@@ -70,7 +45,6 @@
   </tr>
   </tbody>
 </table>
-
 
 <div class="main-content">
   <div class="container">
